@@ -99,8 +99,10 @@ void init_timer_2(void)
 {
 	RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;			//clock to timer
 	RCC->AHBENR |= RCC_AHBENR_GPIOBEN;			//enable clock to PB
-	GPIOB->MODER |= GPIO_MODER_MODER10_1;		//set B10 to alternate functions
+	GPIOB->MODER |= GPIO_MODER_MODER10_1;		//set PB10 to alternate functions
+	GPIOB->MODER |= GPIO_MODER_MODER11_1;		//set PB11 to alternate functions
 	GPIOB->AFR[1] |= 0b1000000000;				//set AFR to AFR2 for PB10
+	GPIOB->AFR[1] |= 0b10000000000000;			//set AFR to AFR2 for PB11
 
 	//set up for 15khz
 	TIM2->PSC = 3;
@@ -113,6 +115,8 @@ void init_timer_2(void)
 	TIM2->CR1 |= TIM_CR1_CEN;
 	//Assigning duty cycle 100%
 	TIM2->CCR3 = 1023;
+	//Assigning duty cycle 75%
+	TIM2->CCR3 = (1023*3)/4;
 
 }
 
